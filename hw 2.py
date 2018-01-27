@@ -11,26 +11,31 @@ from pandas import *
 def getValues(n):
     xb = (np.random.rand(n,1)*2-1)/2-0.5
     yb = (np.random.rand(n,1)*2-1)/2+0.5
-    tb = (np.ones([n,1]))
+    tb = np.ones([n,1])
+    cb = np.tile('k',(n,1))
     xr = (np.random.rand(n,1)*2-1)/2+0.5
     yr = (np.random.rand(n,1)*2-1)/2-0.5
-    tr = -(np.ones([n,1]))
-    b = np.concatenate((xb,yb,tb),axis=1)
-    r = np.concatenate((xr,yr,tr),axis=1)
+    tr = -np.ones([n,1])
+    cr = np.tile('r',(n,1))
+    b = np.concatenate((xb,yb,tb,cb),axis=1)
+    r = np.concatenate((xr,yr,tr,cr),axis=1)
     inputs = np.concatenate((b,r),axis=0)
-
+    
     myDF = DataFrame({
     'x1' : inputs[:,0],
     'x2' : inputs[:,1],
-    'Targets' : inputs[:,2]
+    'Targets' : inputs[:,2],
+    'Color': inputs[:,3]
     })
 
     return(myDF)
 
-myValues = getValues(5)
-print(myValues)
-colormap = np.array(['r', 'k'])
-plt.scatter(myValues.x1, myValues.x2, c=colormap[myValues.Targets], s=40)
+nValues = 500
+myValues = getValues(nValues)
+#print(myValues.Color)
+
+#plt.scatter(myValues.x1, myValues.x2, c=colormap[myValues.Targets], s=40)
+plt.scatter(myValues.x1, myValues.x2, c=myValues.Color, s=40)
 """
 Help:
 http://stamfordresearch.com/scikit-learn-perceptron/
