@@ -13,7 +13,7 @@ class Perceptron:
  def __init__(self):
   """ perceptron initialization """
   self.w = np.random.rand(2)*2-1 # weights
-  self.learningRate = 0.1
+  self.learningRate = 1
 
  def response(self,x):
   """ perceptron output """
@@ -34,7 +34,7 @@ class Perceptron:
   self.w[1] += self.learningRate*iterError*x[1]
 
  def train(self,data):
-  """ 
+  """
    trains all the vector in data.
    Every vector in data must have three elements,
    the third element (x[2]) must be the label (desired output)
@@ -44,7 +44,7 @@ class Perceptron:
   while not learned:
    globalError = 0.0
    for x in data: # for each sample
-    r = self.response(x)    
+    r = self.response(x)
     if x[2] != r: # if we have a wrong response
      iterError = x[2] - r # desired response - actual response
      self.updateWeights(x,iterError)
@@ -53,30 +53,32 @@ class Perceptron:
    if globalError == 0.0 or iteration >= 100: # stop criteria
     print('iterations',iteration)
     learned = True # stop learning
-    
-    
+
+
 def generateData(n):
-    """ 
-      generates a 2D linearly separable dataset with n samples. 
+    """
+      generates a 2D linearly separable dataset with n samples.
       The third element of the sample is the label
     """
     xb = np.arange(n)
     delta = np.random.uniform(-10,10, size=(n,))
     xb = (np.random.rand(n,1)*2-1)/2-0.5
-    yb = (np.random.rand(n,1)*2-1)/2+np.random.rand(1,1)
+    yb = (np.random.rand(n,1)*2-1)/2+0.5
     tb = np.ones([n,1])
     xr = (np.random.rand(n,1)*2-1)/2+0.5
-    yr = (np.random.rand(n,1)*2-1)/2-np.random.rand(1,1)
+    yr = (np.random.rand(n,1)*2-1)/2-0.5
     tr = -np.ones([n,1])
     b = np.concatenate((xb,yb,tb),axis=1)
     r = np.concatenate((xr,yr,tr),axis=1)
     inputs = np.concatenate((b,r),axis=0)
     return inputs
 
-trainset = generateData(100) # train set generation
+# 1) Generate Data
+trainset = generateData(10) # train set generation
+# 2) create perception object with random weights and learning Rate
 perceptron = Perceptron()   # perceptron instance
 perceptron.train(trainset)  # training
-testset = generateData(1000)  # test set generation
+testset = generateData(10)  # test set generation
 
 # Perceptron test
 for x in testset:
@@ -84,7 +86,7 @@ for x in testset:
  if r != x[2]: # if the response is not correct
   print('error')
  if r == 1:
-  plt.plot(x[0],x[1],'ob')  
+  plt.plot(x[0],x[1],'ob')
  else:
   plt.plot(x[0],x[1],'or')
 
