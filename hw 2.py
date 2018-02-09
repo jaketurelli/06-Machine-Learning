@@ -103,11 +103,24 @@ while not learned:
 
     if totalErr==0.0:
         learned = True
-print(min(myValues[:,0]))
-plt.plot([ww1[0], ww2[0]],[float(ww1[0])*slope,float(ww2[0])*slope],'--b' )
-plt.plot([ww1[0], ww2[0]],[ww1[1], ww2[1]],'--g')
+#print(min(myValues[:,0]))
+plt.figure()
 plt.scatter(myValues[:,0], myValues[:,1], c=myValues[:,3], s=10)
-plt.show()
+f = plt.plot([ww1[0], ww2[0]],[float(ww1[0])*slope,float(ww2[0])*slope],'--b' , label ='f')
+plt.xlabel('x1')
+plt.ylabel('x2')
+plt.legend()
+#
+
+plt.figure()
+myF=plt.plot([ww1[0], ww2[0]],[float(ww1[0])*slope,float(ww2[0])*slope],'--b' , label ='f')
+myG=plt.plot([ww1[0], ww2[0]],[ww1[1], ww2[1]],'--g', label ='g')
+plt.scatter(myValues[:,0], myValues[:,1], c=myValues[:,3], s=10)
+plt.xlabel('x1')
+plt.ylabel('x2')
+#plt.legend(('myF','myG'), ('f','g'))
+plt.legend()
+
 print('n= ', nValues)
 print('epochs: ', epochs)
 
